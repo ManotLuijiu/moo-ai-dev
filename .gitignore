@@ -28,6 +28,8 @@ yarn-error.log*
 # local env files
 .env*.local
 .env
+.env.production
+.env.staging
 
 # vercel
 .vercel
@@ -35,3 +37,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# sst
+.sst
+sst.config.ts
+sst-env.d.ts
+
+# open-next
+.open-next
