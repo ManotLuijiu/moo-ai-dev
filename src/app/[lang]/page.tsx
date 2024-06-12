@@ -5,6 +5,7 @@ import * as prismic from "@prismicio/client";
 
 import { createClient } from "@/prismicio";
 import { components } from "@/slices";
+// import { getLocales } from "@/lib/getLocales";
 
 // This component renders your homepage.
 //
@@ -12,7 +13,15 @@ import { components } from "@/slices";
 //
 // Use the SliceZone to render the content of the page.
 
-export async function generateMetadata(): Promise<Metadata> {
+type Props = {
+  params: {
+    lang: string;
+  };
+};
+
+export async function generateMetadata({
+  params: { lang },
+}: Props): Promise<Metadata> {
   const client = createClient();
   const home = await client.getByUID("page", "home");
 
@@ -26,10 +35,32 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function Index() {
+// export async function generateStaticParams() {
+//   const client = createClient();
+
+//   const pages = await client.getAllByType("page", {
+//     lang: "*",
+//     filters: [prismic.filter.at("my.page.uid", "home")],
+//   });
+
+//   return pages.map((page) => {
+//     return {
+//       lang: page.lang,
+//     };
+//   });
+// }
+
+export default async function Index({ params: { lang } }: Props) {
   // The client queries content from the Prismic API
   const client = createClient();
   const home = await client.getByUID("page", "home");
+  console.log('lang-page',lang)
 
-  return <SliceZone slices={home.data.slices} components={components} />;
+  // const locales = await getLocales(home, client);
+
+  return (
+    <>
+      <SliceZone slices={home.data.slices} components={components} />
+    </>
+  );
 }
